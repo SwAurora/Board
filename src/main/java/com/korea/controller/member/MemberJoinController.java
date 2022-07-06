@@ -31,7 +31,7 @@ public class MemberJoinController implements SubController
                 String pwd = req.getParameter("pwd");
                 String addr1 = req.getParameter("addr1");
                 String addr2 = req.getParameter("addr2");
-                //2 입력값 검증1
+                //2 입력값 검증
                 //3 서비스 실행
                 MemberDTO dto = new MemberDTO();
                 dto.setEmail(email);
@@ -39,8 +39,8 @@ public class MemberJoinController implements SubController
                 dto.setAddr1(addr1);
                 dto.setAddr2(addr2);
                 boolean result = service.MemberInsert(dto);
-                //4 View 이동
                 resp.sendRedirect("/");
+                //4 View 이동
             }
         }
         catch(Exception e)

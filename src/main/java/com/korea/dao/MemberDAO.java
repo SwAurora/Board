@@ -75,4 +75,45 @@ public class MemberDAO
         }
         return false;
     }
+
+    public MemberDTO Select(String email)
+    {
+        MemberDTO dto = new MemberDTO();
+        try
+        {
+            pstmt = conn.prepareStatement("select * from tbl_member where email = ?");
+            pstmt.setString(1, email);
+            rs = pstmt.executeQuery();
+
+            if(rs.next())
+            {
+                dto.setEmail(email);
+                dto.setPwd(rs.getString("pwd"));
+                dto.setAddr1(rs.getString("addr1"));
+                dto.setAddr2(rs.getString("addr2"));
+                dto.setGrade(rs.getInt("grade"));
+                return dto;
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                if(rs != null)
+                {
+                    rs.close();
+                }
+                pstmt.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 }

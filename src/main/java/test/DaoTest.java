@@ -26,4 +26,13 @@ public class DaoTest
             System.out.println("Insert 실패");
         }
     }
+
+    @Test
+    public void test2()
+    {
+        // MemberDAO's Select(email)
+        MemberDAO dao = MemberDAO.getInstance();
+        MemberDTO dto = dao.Select("aaaaa@naver.com");
+        System.out.println("결과 : " + dto.toString());
+    }
 }

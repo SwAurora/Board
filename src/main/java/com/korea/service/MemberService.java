@@ -2,6 +2,7 @@ package com.korea.service;
 
 import com.korea.dao.MemberDAO;
 import com.korea.dto.MemberDTO;
+import org.mindrot.bcrypt.BCrypt;
 
 public class MemberService
 {
@@ -23,7 +24,15 @@ public class MemberService
 
     public boolean MemberInsert(MemberDTO dto)
     {
+        String pwd = BCrypt.hashpw(dto.getPwd(), BCrypt.gensalt());
+        System.out.println("PWD(EN) : " + pwd);
+        dto.setPwd(pwd);
         return dao.insert(dto);
+    }
+
+    public MemberDTO MemberSearch(String email)
+    {
+        return dao.Select(email);
     }
 
 }
