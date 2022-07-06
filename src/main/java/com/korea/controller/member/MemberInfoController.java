@@ -15,9 +15,9 @@ public class MemberInfoController implements SubController
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp)
     {
-        HttpSession session = req.getSession();
         try
         {
+            HttpSession session = req.getSession();
             String email = (String) session.getAttribute("email");
             MemberDTO dto = service.MemberSearch(email);
             req.setAttribute("email", dto.getEmail());
