@@ -121,11 +121,12 @@ public class MemberDAO
     {
         try
         {
-            pstmt = conn.prepareStatement("update tbl_member set addr1 = ?, addr2 = ?, grade = ? where email = ?");
+            pstmt = conn.prepareStatement("update tbl_member set addr1 = ?, addr2 = ?, grade = ?, pwd = ? where email = ?");
             pstmt.setString(1, dto.getAddr1());
             pstmt.setString(2, dto.getAddr2());
             pstmt.setInt(3, dto.getGrade());
-            pstmt.setString(4, dto.getEmail());
+            pstmt.setString(4, dto.getPwd());
+            pstmt.setString(5, dto.getEmail());
             int result = pstmt.executeUpdate();
             if(result > 0)
                 return true;

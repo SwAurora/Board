@@ -39,6 +39,10 @@ public class MemberUpdateController implements SubController
                     dto.setAddr1(addr1);
                     dto.setAddr2(addr2);
 
+                    String newpwd = req.getParameter("newpwd");
+                    newpwd = BCrypt.hashpw(newpwd, BCrypt.gensalt());
+                    dto.setPwd(newpwd);
+
                     service.MemberUpdate(dto);
                     req.setAttribute("dto", dto);
                     // View로 이동
@@ -47,6 +51,7 @@ public class MemberUpdateController implements SubController
                 else
                 {
                     // 패스워드 불일치
+                    req.setAttribute("MSG", "패스워드가 맞지않습니다.");
                     req.getRequestDispatcher("/WEB-INF/member/password.jsp").forward(req, resp);
                 }
             }

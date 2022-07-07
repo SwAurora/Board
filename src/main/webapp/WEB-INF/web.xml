@@ -16,4 +16,14 @@
         <servlet-name>FC</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
+
+    <!--Filter URL Mapping-->
+    <filter>
+        <filter-name>authority</filter-name>
+        <filter-class>com.korea.filter.authfilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>authority</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
 </web-app>

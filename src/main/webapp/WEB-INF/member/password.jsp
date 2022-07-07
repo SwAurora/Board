@@ -6,6 +6,17 @@
     <link rel="stylesheet" href="/resources/css/common.css">
 </head>
 <body>
+<%
+    String MSG = (String) request.getAttribute("MSG");
+    if(MSG != null)
+    {
+%>
+<script>
+    alert("<%=MSG%>");
+</script>
+<%
+    }
+%>
 <div class="container-md" id="wrapper" style="width:80%; margin:100px auto;">
     <%--TopMenu--%>
     <%@ include file="/resources/includes/topmenu.jsp" %>
@@ -26,6 +37,7 @@
             <input type="hidden" name="flag" value="true">
             <input type="hidden" name="addr1" value="<%=request.getParameter("addr1")%>">
             <input type="hidden" name="addr2" value="<%=request.getParameter("addr2")%>">
+            <input type="hidden" name="newpwd" value="<%=request.getParameter("newpwd")%>">
         </form>
     </div>
     <%--Footer--%>
