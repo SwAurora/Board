@@ -35,4 +35,15 @@ public class DaoTest
         MemberDTO dto = dao.Select("aaaaa@naver.com");
         System.out.println("결과 : " + dto.toString());
     }
+    @Test
+    public void test3()
+    {
+        MemberDTO dto = new MemberDTO();
+        dto.setEmail("ttt@naver.com");
+        dto.setPwd("1234");
+        dto.setAddr1("서울");
+        dto.setAddr2("00구 00동");
+        MemberDAO dao = MemberDAO.getInstance();
+        dao.Update(dto);
+    }
 }

@@ -4,6 +4,7 @@ import com.korea.controller.auth.LoginController;
 import com.korea.controller.auth.LogoutController;
 import com.korea.controller.member.MemberInfoController;
 import com.korea.controller.member.MemberJoinController;
+import com.korea.controller.member.MemberUpdateController;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,12 +18,13 @@ public class FrontController extends HttpServlet
     HashMap<String, SubController> list = null;
 
     @Override
-    public void init() throws ServletException
+    public void init()
     {
         list = new HashMap<>();
         // 회원관련
         list.put("/MemberJoin.do", new MemberJoinController());
         list.put("/MemberInfo.do", new MemberInfoController());
+        list.put("/MemberUpdate.do", new MemberUpdateController());
         // 인증관련
         list.put("/Login.do", new LoginController());
         list.put("/Logout.do", new LogoutController());
@@ -30,7 +32,7 @@ public class FrontController extends HttpServlet
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
