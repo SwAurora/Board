@@ -1,3 +1,4 @@
+<%@ page import="com.korea.dto.MemberDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -7,9 +8,7 @@
 </head>
 <body>
 <%
-    String email = (String) request.getAttribute("email");
-    String addr1 = (String) request.getAttribute("addr1");
-    String addr2 = (String) request.getAttribute("addr2");
+    MemberDTO dto = (MemberDTO) request.getAttribute("dto");
 %>
 <div class="container-md" id="wrapper" style="width:80%; margin:100px auto;">
     <%--TopMenu--%>
@@ -23,17 +22,17 @@
             <table class="table w-75 table-striped" style="margin:100px auto;">
                 <tr>
                     <td>Email</td>
-                    <td><input name="email" value="<%=email%>" disabled>
+                    <td><input name="email" value="<%=dto.getEmail()%>" disabled>
                     </td>
                 </tr>
                 <tr>
                     <td>Addr1</td>
-                    <td><input name="addr1" value="<%=addr1%>">
+                    <td><input name="addr1" value="<%=dto.getAddr1()%>">
                     </td>
                 </tr>
                 <tr>
                     <td>Addr2</td>
-                    <td><input name="addr2" value="<%=addr2%>">
+                    <td><input name="addr2" value="<%=dto.getAddr2()%>">
                     </td>
                 </tr>
                 <tr>

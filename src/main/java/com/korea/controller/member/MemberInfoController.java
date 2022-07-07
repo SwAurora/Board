@@ -20,9 +20,7 @@ public class MemberInfoController implements SubController
             HttpSession session = req.getSession();
             String email = (String) session.getAttribute("email");
             MemberDTO dto = service.MemberSearch(email);
-            req.setAttribute("email", dto.getEmail());
-            req.setAttribute("addr1", dto.getAddr1());
-            req.setAttribute("addr2", dto.getAddr2());
+            req.setAttribute("dto", dto);
             req.getRequestDispatcher("/WEB-INF/member/myinfo.jsp").forward(req, resp);
         }
         catch(Exception e)

@@ -40,9 +40,7 @@ public class MemberUpdateController implements SubController
                     dto.setAddr2(addr2);
 
                     service.MemberUpdate(dto);
-                    req.setAttribute("email", email);
-                    req.setAttribute("addr1", addr1);
-                    req.setAttribute("addr2", addr2);
+                    req.setAttribute("dto", dto);
                     // View로 이동
                     req.getRequestDispatcher("/WEB-INF/member/myinfo.jsp").forward(req, resp);
                 }
