@@ -6,6 +6,17 @@
     <link rel="stylesheet" href="resources/css/common.css">
 </head>
 <body>
+<%
+    String msg = request.getParameter("MSG");
+    if(msg != null)
+    {
+%>
+<script>
+    alert("<%=msg%>");
+</script>
+<%
+    }
+%>
 <div class="container-md" id="wrapper" style="width:80%; margin:100px auto;">
     <%--TopMenu--%>
     <%@ include file="resources/includes/topmenu.jsp" %>

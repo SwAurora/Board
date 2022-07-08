@@ -2,8 +2,10 @@ package com.korea.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 public class authfilter implements Filter
@@ -27,6 +29,8 @@ public class authfilter implements Filter
         resp.setContentType("text/html; charset=UTF-8");
 
         HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) resp;
+
         HttpSession session = request.getSession();
         int usergrade = 0;
         if(session.getAttribute("grade") != null)
@@ -39,10 +43,19 @@ public class authfilter implements Filter
         if(pageGradeMap.get(URL) != null)
             pagegrade = pageGradeMap.get(URL);
         System.out.println("PageGrade : " + pagegrade);
-        if(usergrade == 0 && pagegrade >= 1)
-            throw new ServletException("로그인이 필요한 페이지입니다.");
+
         if(usergrade < 2 && pagegrade == 2)
-            throw new ServletException("페이지에 접근할 권한이 없습니다.");
+        {
+            String msg = URLEncoder.encode("페이지에 접근할 권한이 없습니다.");
+            response.sendRedirect("/main.jsp?MSG=" + msg);
+            //throw new ServletException("페이지에 접근할 권한이 없습니다.");
+        }
+        else if(usergrade == 0 && pagegrade >= 1)
+        {
+            String msg = URLEncoder.encode("로그인이 필요한 페이지입니다.");
+            response.sendRedirect("/main.jsp?MSG=" + msg);
+            //throw new ServletException("로그인이 필요한 페이지입니다.");
+        }
 
         // ↑ Request 전처리
         chain.doFilter(req, resp);
