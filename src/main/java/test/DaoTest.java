@@ -2,6 +2,7 @@ package test;
 
 import com.korea.dao.MemberDAO;
 import com.korea.dto.MemberDTO;
+import com.korea.service.MemberService;
 import org.junit.Test;
 
 public class DaoTest
@@ -45,5 +46,27 @@ public class DaoTest
         dto.setAddr2("00구 00동");
         MemberDAO dao = MemberDAO.getInstance();
         dao.Update(dto);
+    }
+
+    @Test
+    public void test4()
+    {
+        MemberDTO dto = new MemberDTO();
+        dto.setEmail("admin@admin.com");
+        dto.setPwd("1234");
+        dto.setAddr1("");
+        dto.setAddr2("");
+        dto.setGrade(2);
+
+        MemberService service = MemberService.getInstance();
+        service.MemberInsert(dto);
+
+        dto.setEmail("guest@guest.com");
+        dto.setPwd("1234");
+        dto.setAddr1("");
+        dto.setAddr2("");
+        dto.setGrade(0);
+
+        service.MemberInsert(dto);
     }
 }
