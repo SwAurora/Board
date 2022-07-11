@@ -1,9 +1,13 @@
 package test;
 
+import com.korea.dao.BoardDAO;
 import com.korea.dao.MemberDAO;
+import com.korea.dto.BoardDTO;
 import com.korea.dto.MemberDTO;
 import com.korea.service.MemberService;
 import org.junit.Test;
+
+import java.util.List;
 
 public class DaoTest
 {
@@ -68,5 +72,13 @@ public class DaoTest
         dto.setGrade(0);
 
         service.MemberInsert(dto);
+    }
+
+    @Test
+    public void test5()
+    {
+        BoardDAO dao = BoardDAO.getInstance();
+        List<BoardDTO> list = dao.Select(11, 20);
+        list.forEach(dto -> System.out.println(dto));
     }
 }

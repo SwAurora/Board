@@ -12,7 +12,13 @@
   <%--NAV--%>
   <%@ include file="/resources/includes/nav.jsp" %>
   <%--MainContents--%>
-  <div id="maincontents" style="border: 1px solid gray; margin-top: 15px;">
+  <div id="maincontents" style="margin-top: 15px;">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">공지사항</li>
+      </ol>
+    </nav>
     <h1>공지사항</h1>
     <a href="/Notice/post.do">글쓰기</a>
   </div>

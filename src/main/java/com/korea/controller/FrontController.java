@@ -10,7 +10,6 @@ import com.korea.controller.member.MemberUpdateController;
 import com.korea.controller.notice.NoticeListController;
 import com.korea.controller.notice.NoticePostController;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
