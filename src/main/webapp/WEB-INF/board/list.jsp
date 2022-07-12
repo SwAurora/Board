@@ -23,11 +23,33 @@
             </ol>
         </nav>
         <h1>자유게시판</h1>
+        <%
+            int totalcount = 0; // 전체 게시물 수
+            int numberPage = 10; // 페이지당 표시할 게시물 수
+
+            int totalPage = 0; // 전체 페이지 수
+            int nowPage = 1; // 현재 페이지 번호
+
+            int start = 0; // 게시물 읽을 때 사용되는 시작 값
+            int end = 10; // 게시물 읽을 때 사용되는 끝 값
+
+            int pagePerBlock = 15; // 블럭당 표시할 페이지 수
+            int totalBlock = 0; // 전체 페이징 블럭 수
+            int nowBlock = 1; // 현재 페이징 블럭 수
+        %>
+
+        <%
+            totalcount = (int) request.getAttribute("tcnt"); // 전체 게시물 수 받기
+            totalPage = (int) Math.ceil(totalcount / numberPage); // 전체 페이지 수 계산
+
+            totalBlock = (int) Math.ceil((double) totalPage / pagePerBlock); // 전체 블럭수 계산
+            nowBlock = (int) Math.ceil((double) nowPage / pagePerBlock); // 현재 블럭수 계산
+        %>
 
         <%--현재페이지 / 전체페이지--%>
         <table class="table">
             <tr>
-                <td style="border:0;">1/100 Page</td>
+                <td style="border:0;"><%=nowPage%>/<%=totalPage%> Page</td>
                 <td style="border:0; text-align: right;">
                     <button class="btn btn-secondary">처음으로</button>
                     <button class="btn btn-primary">글쓰기</button>
@@ -48,40 +70,65 @@
                 {
             %>
             <tr>
-                <td><%=boardDTO.getNo()%></td>
-                <td><%=boardDTO.getTitle()%></td>
-                <td><%=boardDTO.getWriter()%></td>
-                <td><%=boardDTO.getRegdate()%></td>
-                <td><%=boardDTO.getCount()%></td>
+                <td><%=boardDTO.getNo()%>
+                </td>
+                <td><%=boardDTO.getTitle()%>
+                </td>
+                <td><%=boardDTO.getWriter()%>
+                </td>
+                <td><%=boardDTO.getRegdate()%>
+                </td>
+                <td><%=boardDTO.getCount()%>
+                </td>
             </tr>
             <%
                 }
             %>
             <tr>
-                <td>1</td>
-                <td>글제목1</td>
-                <td>작성자1</td>
-                <td>2022-07-11</td>
-                <td>1</td>
-            </tr>
-            <tr>
                 <%--페이지네이션--%>
                 <td colspan="5" style="border-bottom: 0;">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
+                            <%--이전으로--%>
+                            <%
+                                if(nowBlock > 1)
+                                {
+                            %>
                             <li class="page-item">
                                 <a class="page-link" href="#" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <%
+                                }
+                            %>
+
+                            <%
+                                int pageStart = (nowBlock - 1) * pagePerBlock + 1;
+                                int pageEnd = ((pageStart + (pagePerBlock - 1)) < totalPage) ? (pageStart + (pagePerBlock - 1)) : totalPage;
+                            %>
+                            <%--페이지 번호--%>
+                            <%
+                                for(; pageStart <= pageEnd; pageStart++)
+                                {
+                            %>
+                            <li class="page-item"><a class="page-link" href="#"><%=pageStart%></a></li>
+                            <%
+                                }
+                            %>
+                            <%--다음으로--%>
+                            <%
+                                if(totalBlock > nowBlock)
+                                {
+                            %>
                             <li class="page-item">
                                 <a class="page-link" href="#" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>
+                            <%
+                                }
+                            %>
                         </ul>
                     </nav>
                 </td>

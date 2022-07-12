@@ -20,6 +20,9 @@ public class BoardListController implements SubController
             int end = 10;
 
             List<BoardDTO> list = service.getBoardList(start, end);
+            int tcnt = service.getTotalCnt();
+
+            req.setAttribute("tcnt", tcnt);
             req.setAttribute("list", list);
             req.getRequestDispatcher("/WEB-INF/board/list.jsp").forward(req, resp);
         }

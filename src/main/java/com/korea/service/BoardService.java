@@ -27,4 +27,9 @@ public class BoardService
     {
         return dao.Select(start, end);
     }
+
+    public int getTotalCnt()
+    {
+        return dao.getTotalCount();
+    }
 }

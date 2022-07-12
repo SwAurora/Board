@@ -81,4 +81,12 @@ public class DaoTest
         List<BoardDTO> list = dao.Select(11, 20);
         list.forEach(dto -> System.out.println(dto));
     }
+
+    @Test
+    public void test6()
+    {
+        BoardDAO dao = BoardDAO.getInstance();
+        int result = dao.getTotalCount();
+        System.out.println(result);
+    }
 }
