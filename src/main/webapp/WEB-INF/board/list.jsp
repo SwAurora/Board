@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="/resources/css/common.css">
 </head>
 <body>
+<%
+    String msg = (String) request.getAttribute("MSG");
+    if(msg != null)
+    {
+%>
+<script>
+    alert('<%=msg%>');
+</script>
+<%
+    }
+%>
 <div class="container-md" id="wrapper" style="width:80%; margin:100px auto;">
     <%--TopMenu--%>
     <%@ include file="/resources/includes/topmenu.jsp" %>
@@ -80,7 +91,20 @@
                 form.action = "/Board/list.do";
                 form.submit();
             }
+
+            // 처음으로 이동 처리
+            function init()
+            {
+                let form = document.initFrm;
+                form.nowPage.value = 1;
+                form.action = "/Board/list.do";
+                form.submit();
+            }
         </script>
+
+        <form name="initFrm" method="get">
+            <input type="hidden" name="nowPage">
+        </form>
 
         <%--페이징 처리 폼--%>
         <form name="readFrm" method="get">
@@ -95,8 +119,8 @@
             <tr>
                 <td style="border:0;"><span style="color: dodgerblue"><%=nowPage%></span>/<%=totalPage%> Page</td>
                 <td style="border:0; text-align: right;">
-                    <button class="btn btn-secondary">처음으로</button>
-                    <button class="btn btn-primary">글쓰기</button>
+                    <button class="btn btn-secondary" onclick="init()">처음으로</button>
+                    <a class="btn btn-primary" href="/Board/post.do">글쓰기</a>
                 </td>
             </tr>
         </table>
@@ -158,17 +182,17 @@
                                     if(pageStart == nowPage)
                                     {
                             %>
-                                        <li class="page-item active"><a class="page-link"
-                                                                        href="javascript:paging(<%=pageStart%>)"><%=pageStart%>
-                                        </a></li>
+                            <li class="page-item active"><a class="page-link"
+                                                            href="javascript:paging(<%=pageStart%>)"><%=pageStart%>
+                            </a></li>
                             <%
-                                    }
-                                    else
-                                    {
-                                        %>
-                                        <li class="page-item"><a class="page-link"
-                                                                 href="javascript:paging(<%=pageStart%>)"><%=pageStart%>
-                                        </a></li>
+                            }
+                            else
+                            {
+                            %>
+                            <li class="page-item"><a class="page-link"
+                                                     href="javascript:paging(<%=pageStart%>)"><%=pageStart%>
+                            </a></li>
                             <%
                                     }
                                 }
@@ -191,7 +215,6 @@
                 </td>
             </tr>
         </table>
-        <a href="/Board/post.do">글쓰기</a>
     </div>
     <%--Footer--%>
 </div>

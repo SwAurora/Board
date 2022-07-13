@@ -32,4 +32,9 @@ public class BoardService
     {
         return dao.getTotalCount();
     }
+
+    public boolean PostBoard(BoardDTO dto)
+    {
+        return dao.insult(dto);
+    }
 }

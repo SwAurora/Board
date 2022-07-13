@@ -35,7 +35,7 @@ public class LoginController implements SubController
                     HttpSession session = req.getSession();
                     session.setAttribute("email", dto.getEmail());
                     session.setAttribute("grade", dto.getGrade());
-                    session.setMaxInactiveInterval(60*5);
+                    session.setMaxInactiveInterval(60*30);
                     // View로 이동
                     resp.sendRedirect("/main.jsp");
                 }

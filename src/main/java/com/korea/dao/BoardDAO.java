@@ -135,4 +135,37 @@ public class BoardDAO
         }
         return result;
     }
+
+    public boolean insult(BoardDTO dto)
+    {
+        try
+        {
+            pstmt = conn.prepareStatement("insert into tbl_board(title, content, writer, regdate, pwd, count, ip, filename, filesize) values(?,?,?,sysdate(),?,0,?,0,0)");
+            pstmt.setString(1, dto.getTitle());
+            pstmt.setString(2, dto.getContent());
+            pstmt.setString(3, dto.getWriter());
+            pstmt.setString(4, dto.getPwd());
+            pstmt.setString(5, dto.getIp());
+
+            int result = pstmt.executeUpdate();
+            if(result > 0)
+                return true;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                pstmt.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 }

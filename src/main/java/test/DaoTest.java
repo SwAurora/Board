@@ -89,4 +89,18 @@ public class DaoTest
         int result = dao.getTotalCount();
         System.out.println(result);
     }
+
+    @Test
+    public void test7()
+    {
+        BoardDAO dao = BoardDAO.getInstance();
+        BoardDTO dto = new BoardDTO();
+        dto.setTitle("NEW TITLE");
+        dto.setContent("NEW CONTENT");
+        dto.setWriter("NEW WRITER");
+        dto.setPwd("1234");
+        dto.setIp("127.0.0.1");
+        boolean check = dao.insult(dto);
+        System.out.println("결과: " + check);
+    }
 }
