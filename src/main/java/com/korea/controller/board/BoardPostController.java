@@ -7,6 +7,7 @@ import com.korea.service.BoardService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import java.util.ArrayList;
 
 public class BoardPostController implements SubController
@@ -44,7 +45,19 @@ public class BoardPostController implements SubController
                 dto.setPwd(password);
                 dto.setWriter(writer);
                 dto.setIp(ip);
-                boolean result = service.PostBoard(dto);
+
+                //첨부파일 part 전달
+                ArrayList<Part> parts = (ArrayList<Part>) req.getParts();
+                boolean result = false;
+                if(parts == null) // 첨부파일이 없는 경우
+                {
+                    result = service.PostBoard(dto);
+                }
+                else // 첨부파일이 있는 경우
+                {
+                    result = service.PostBoard(dto, parts);
+                }
+
                 if(result)
                 {
                     int tcnt = service.getTotalCnt();

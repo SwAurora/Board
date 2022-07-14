@@ -100,7 +100,7 @@ public class DaoTest
         dto.setWriter("NEW WRITER");
         dto.setPwd("1234");
         dto.setIp("127.0.0.1");
-        boolean check = dao.insult(dto);
+        boolean check = dao.insert(dto);
         System.out.println("결과: " + check);
     }
 }

@@ -10,12 +10,18 @@ import com.korea.controller.member.MemberUpdateController;
 import com.korea.controller.notice.NoticeListController;
 import com.korea.controller.notice.NoticePostController;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 
+@MultipartConfig(
+        fileSizeThreshold = 1024*1024*10, // 10mb
+        maxFileSize = 1024*1024*50, // 50mb
+        maxRequestSize = 1024*1024*100 // 100mb
+)
 public class FrontController extends HttpServlet
 {
     HashMap<String, SubController> list = null;

@@ -1,10 +1,9 @@
 package com.korea.updownTest;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FilenameFilter;
 
-public class C01FileCLass
+public class C00FileCLass
 {
     public static void main(String[] args)
     {

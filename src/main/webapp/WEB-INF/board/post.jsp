@@ -34,7 +34,7 @@
         </nav>
     </div>
     <h1>글쓰기</h1>
-        <form action="/Board/post.do" method="post">
+        <form action="/Board/post.do" method="post" enctype="multipart/form-data">
             <input name="title" class="form-control mb-3 w-50" placeholder="제목">
             <textarea name="content" class="form-control mb-3 w-50" style="height: 350px; resize: none;" placeholder="내용"></textarea>
             <input type="password" name="pwd" class="form-control mb-3 w-50" placeholder="비밀번호">
