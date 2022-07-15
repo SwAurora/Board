@@ -110,4 +110,9 @@ public class BoardService
         String[] arr = contentDisp.split(";");
         return arr[2].substring(11, arr[2].length() - 1);
     }
+
+    public BoardDTO getBoardDTO(int no)
+    {
+        return dao.Select(no);
+    }
 }

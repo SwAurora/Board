@@ -100,6 +100,15 @@
                 form.action = "/Board/list.do";
                 form.submit();
             }
+
+            function read(no)
+            {
+                let form = document.readFrm;
+                form.no.value = no;
+                form.nowPage.value = <%=nowPage%>;
+                form.action = "/Board/read.do";
+                form.submit();
+            }
         </script>
 
         <form name="initFrm" method="get">
@@ -140,7 +149,8 @@
             <tr>
                 <td><%=boardDTO.getNo()%>
                 </td>
-                <td><%=boardDTO.getTitle()%>
+                <td><a href="javascript:read(<%=boardDTO.getNo()%>)"><%=boardDTO.getTitle()%>
+                </a>
                 </td>
                 <td><%=boardDTO.getWriter()%>
                 </td>

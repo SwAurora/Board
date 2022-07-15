@@ -48,8 +48,9 @@ public class BoardPostController implements SubController
 
                 //첨부파일 part 전달
                 ArrayList<Part> parts = (ArrayList<Part>) req.getParts();
-                boolean result = false;
-                if(parts == null) // 첨부파일이 없는 경우
+                boolean result;
+                long size = parts.get(3).getSize();
+                if(size == 0) // 첨부파일이 없는 경우
                 {
                     result = service.PostBoard(dto);
                 }

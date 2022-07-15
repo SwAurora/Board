@@ -103,4 +103,11 @@ public class DaoTest
         boolean check = dao.insert(dto);
         System.out.println("결과: " + check);
     }
+    @Test
+    public void test8()
+    {
+        BoardDAO dao = BoardDAO.getInstance();
+        BoardDTO dto = dao.Select(508);
+        System.out.println(dto);
+    }
 }
