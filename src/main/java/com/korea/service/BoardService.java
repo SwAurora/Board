@@ -3,13 +3,16 @@ package com.korea.service;
 import com.korea.dao.BoardDAO;
 import com.korea.dto.BoardDTO;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.File;
+import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class BoardService
 {
@@ -78,12 +81,11 @@ public class BoardService
             {
                 String FileName = getFileName(part);
 
-                totalFilename.append(FileName).append(";");
-                totalFilesize.append(part.getSize()).append(";");
-
                 String ext = FileName.substring(FileName.lastIndexOf(".") + 1);
                 FileName = FileName.replaceAll("." + ext, "");
                 FileName = FileName + "_" + UUID.randomUUID() + "." + ext;
+                totalFilename.append(FileName).append(";");
+                totalFilesize.append(part.getSize()).append(";");
                 try
                 {
                     part.write(RealPath + "/" + FileName);
@@ -114,5 +116,66 @@ public class BoardService
     public BoardDTO getBoardDTO(int no)
     {
         return dao.Select(no);
+    }
+
+    // 단일 파일 다운로드
+    public boolean download(String filename, HttpServletRequest req, HttpServletResponse resp)
+    {
+        HttpSession session = req.getSession();
+        BoardDTO dto = (BoardDTO) session.getAttribute("dto");
+
+        String email = dto.getWriter();
+        String regdate = dto.getRegdate();
+        regdate = regdate.substring(0, 10);
+
+        System.out.println("REGDATE : " + regdate);
+
+        // 경로설정
+        String downdir = "c://upload";
+        String filepath = downdir + "/" + email + "/" + regdate + "/" + filename;
+
+        // 헤더설정
+        resp.setContentType("application/octet-stream");
+
+        // 문자셋 설정
+        try
+        {
+            filename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+            resp.setHeader("Content-Disposition", "attachment; fileName=" + filename);
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        // 스트림형성(다운로드 처리)
+        try
+        {
+            FileInputStream fin = new FileInputStream(filepath);
+            ServletOutputStream bout = resp.getOutputStream();
+
+            int read;
+            byte[] buff = new byte[4096];
+            while(true)
+            {
+                read = fin.read(buff, 0, buff.length);
+                if(read == -1)
+                {
+                    break;
+                }
+                bout.write(buff, 0, read);
+            }
+            bout.flush();
+            bout.close();
+            fin.close();
+
+            return true;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
