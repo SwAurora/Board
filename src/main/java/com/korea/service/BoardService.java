@@ -10,9 +10,12 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class BoardService
 {
@@ -59,7 +62,10 @@ public class BoardService
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = simpleDateFormat.format(now);
-        String subPath = email + "/" + date;
+
+        // 게시물 번호
+        String no = String.valueOf(dao.getLastNo());
+        String subPath = email + "/" + date + "/" + no;
 
         // 3) File클래스 경로 잡기
         File RealPath = new File(UploadPath + subPath);
@@ -126,13 +132,12 @@ public class BoardService
 
         String email = dto.getWriter();
         String regdate = dto.getRegdate();
+        String no = String.valueOf(dto.getNo());
         regdate = regdate.substring(0, 10);
-
-        System.out.println("REGDATE : " + regdate);
 
         // 경로설정
         String downdir = "c://upload";
-        String filepath = downdir + "/" + email + "/" + regdate + "/" + filename;
+        String filepath = downdir + "/" + email + "/" + regdate + "/" + no + "/" + filename;
 
         // 헤더설정
         resp.setContentType("application/octet-stream");
@@ -177,5 +182,98 @@ public class BoardService
             e.printStackTrace();
         }
         return false;
+    }
+
+    public boolean downloadAllZIP(BoardDTO dto, HttpServletResponse resp)
+    {
+        // 압축파일 경로
+        String zipFileName = "C:/Users/rlatj/Downloads/All.zip";
+
+        String email = dto.getWriter();
+        String regdate = dto.getRegdate();
+        String no = String.valueOf(dto.getNo());
+        regdate = regdate.substring(0, 10);
+
+        // 경로설정
+        String downdir = "c://upload";
+        String subpath = downdir + "/" + email + "/" + regdate + "/" + no + "/";
+
+        // 파일이름 리스트
+        String[] filelist = dto.getFilename().split(";");
+
+        // 헤더설정
+        String id = UUID.randomUUID().toString();
+        resp.setContentType("application/zip");
+        resp.setHeader("Content-Disposition", "attachment; fileName=ALL_" + id + ".zip");
+
+        // 문자셋 설정
+        try
+        {
+            ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(zipFileName));
+            for(String list : filelist)
+            {
+                // 파일 -> 프로그램 inStream 생성
+                FileInputStream fin = new FileInputStream(subpath + list);
+
+                // ZipEntry 생성
+                ZipEntry ent = new ZipEntry(list);
+                zout.putNextEntry(ent);
+
+                int read;
+                byte[] buff = new byte[4096];
+                while(true)
+                {
+                    read = fin.read(buff, 0, buff.length);
+                    if(read == -1)
+                    {
+                        break;
+                    }
+                    zout.write(buff, 0, read);
+                }
+                zout.closeEntry();
+                fin.close();
+            }
+            zout.flush();
+            zout.close();
+            return true;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void CountUp(int no)
+    {
+        dao.CountUp(no);
+    }
+
+    public boolean UpdateBoard(BoardDTO dto)
+    {
+        return dao.Update(dto);
+    }
+
+    public boolean RemoveBoard(BoardDTO dto)
+    {
+        String email = dto.getWriter();
+        String regdate = dto.getRegdate();
+        regdate = regdate.substring(0, 10);
+        String no = String.valueOf(dto.getNo());
+
+        String dirpath = UploadPath + email + "/" + regdate + "/" + no;
+
+        File dir = new File(dirpath);
+        System.out.println(dir);
+        if(dir.exists())
+        {
+            File[] files = dir.listFiles();
+            for(File file : Objects.requireNonNull(files))
+            {
+                file.delete();
+            }
+            dir.delete();
+        }
+        return dao.Delete(dto);
     }
 }

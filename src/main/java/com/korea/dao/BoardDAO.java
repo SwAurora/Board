@@ -218,4 +218,114 @@ public class BoardDAO
         }
         return dto;
     }
+
+    public int getLastNo()
+    {
+        try
+        {
+            pstmt = conn.prepareStatement("ANALYZE TABLE tbl_board");
+            pstmt.executeQuery();
+            pstmt = conn.prepareStatement("SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'tbl_board' AND table_schema = 'board'");
+            rs = pstmt.executeQuery();
+            rs.next();
+            System.out.println(rs.getInt(1));
+            return rs.getInt(1);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                rs.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+            try
+            {
+                pstmt.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return 0;
+    }
+
+    public void CountUp(int no)
+    {
+        try
+        {
+            pstmt = conn.prepareStatement("update tbl_board set count = count + 1 where no = ?");
+            pstmt.setInt(1, no);
+            pstmt.executeUpdate();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                pstmt.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean Update(BoardDTO dto)
+    {
+        try
+        {
+            pstmt = conn.prepareStatement("update tbl_board set title= ?, content = ? where no = ?");
+            pstmt.setString(1, dto.getTitle());
+            pstmt.setString(2, dto.getContent());
+            pstmt.setInt(3, dto.getNo());
+            int result = pstmt.executeUpdate();
+            if(result > 0)
+                return true;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                pstmt.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public boolean Delete(BoardDTO dto)
+    {
+        try
+        {
+            pstmt = conn.prepareStatement("delete from tbl_board where no = ?");
+            pstmt.setInt(1, dto.getNo());
+            int result = pstmt.executeUpdate();
+            if(result > 0)
+                return true;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

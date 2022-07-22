@@ -4,6 +4,7 @@ import com.korea.controller.SubController;
 import com.korea.dto.BoardDTO;
 import com.korea.service.BoardService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 public class BoardReadController implements SubController
 {
     BoardService service = BoardService.getInstance();
+
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp)
     {
@@ -20,6 +22,19 @@ public class BoardReadController implements SubController
 
         // 서비스 실행
         int num = Integer.parseInt(no);
+
+        Cookie[] cookies = req.getCookies();
+        for(Cookie cookie : cookies)
+        {
+            if(cookie.getName().equals("init"))
+            {
+                cookie.setMaxAge(0); // 쿠키 제거
+                resp.addCookie(cookie); // 쿠키 제거 적용
+                service.CountUp(num);
+                break;
+            }
+        }
+
         BoardDTO dto = service.getBoardDTO(num);
 
         // 세션에 읽고있는 게시물 저장(수정, 삭제로 이동시 현재 읽는 게시물 확인용)
@@ -31,7 +46,7 @@ public class BoardReadController implements SubController
         {
             req.setAttribute("dto", dto);
             req.setAttribute("nowPage", nowPage);
-            req.getRequestDispatcher("/WEB-INF/board/read.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/board/read.jsp").forward(req, resp);
         }
         catch(Exception e)
         {

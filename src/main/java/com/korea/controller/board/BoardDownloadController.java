@@ -14,8 +14,9 @@ public class BoardDownloadController implements SubController
     public void execute(HttpServletRequest req, HttpServletResponse resp)
     {
         String filename = req.getParameter("filename");
+        String flag = req.getParameter("flag");
 
-        boolean result = service.download(filename, req, resp);
-
+        boolean result = false;
+        result = service.download(filename, req, resp);
     }
 }

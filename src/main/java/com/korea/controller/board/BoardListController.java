@@ -4,6 +4,7 @@ import com.korea.controller.SubController;
 import com.korea.dto.BoardDTO;
 import com.korea.service.BoardService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -33,8 +34,11 @@ public class BoardListController implements SubController
             req.setAttribute("tcnt", tcnt);
             req.setAttribute("list", list);
 
-            req.setAttribute("nowPage", nowPage);
-            req.getRequestDispatcher("/WEB-INF/board/list.jsp").forward(req, resp);
+            // 쿠키생성(게시글읽기 새로고침시 중복Count방지)
+            Cookie init = new Cookie("init", "true");
+            resp.addCookie(init);
+
+            req.getRequestDispatcher("/WEB-INF/board/list.jsp?nowPage" + nowPage).forward(req, resp);
         }
         catch(Exception e)
         {

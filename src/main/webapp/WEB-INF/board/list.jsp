@@ -50,9 +50,12 @@
         %>
 
         <%
-            if(request.getAttribute("nowPage") != null)
+            if(request.getParameter("nowPage") != null)
             {
-                nowPage = Integer.parseInt((String) request.getAttribute("nowPage"));
+                nowPage = Integer.parseInt(request.getParameter("nowPage"));
+
+                start = 0;
+                end = 0;
             }
         %>
 
@@ -121,6 +124,7 @@
             <input type="hidden" name="start"> <%--DB로 부터 읽을 시작 번호--%>
             <input type="hidden" name="end"> <%--DB로 부터 읽을 끝 번호--%>
             <input type="hidden" name="nowPage"> <%--현재 페이지 번호--%>
+            <input type="hidden" name="init" value="true"> <%--현재 페이지 번호--%>
         </form>
 
         <%--현재페이지 / 전체페이지--%>
