@@ -168,14 +168,21 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                 </div>
                 <%--다중파일 무압축 받기--%>
-                <form name="multiform">
-                    <%
-                        for(String list : Objects.requireNonNull(filelist))
-                        {
-                            out.println("<input type='hidden' name='file' value='" + list + "'>");
-                        }
-                    %>
-                </form>
+                <%
+                    if(filelist != null)
+                    {
+                %>
+                        <form name="multiform">
+                            <%
+                                for(String list : Objects.requireNonNull(filelist))
+                                {
+                                    out.println("<input type='hidden' name='file' value='" + list + "'>");
+                                }
+                            %>
+                        </form>
+                <%
+                    }
+                %>
                 <script>
                     $(document).ready(function()
                     {
@@ -222,36 +229,11 @@
             <a href="javascript:postreply()" class="btn btn-secondary">댓글 남기기</a>
         </div>
     </form>
-    <div class="mb-2">
+    <div class="mb-2" id="replycnt">
         댓글수 : <span>100</span>
     </div>
     <div style="overflow:auto; width:580px; height:300px; border:1px solid gray;" id="replylist">
         <%--댓글 리스트--%>
-        <div class="form-control">
-            <span style="font-size: 0.7rem">example@example.com</span>&nbsp;&nbsp;
-            <span style="font-size: 0.7rem">2022-07-21</span><br>
-            <span>글내용입니다.</span>
-        </div>
-            <div class="form-control">
-                <span style="font-size: 0.7rem">example@example.com</span>&nbsp;&nbsp;
-                <span style="font-size: 0.7rem">2022-07-21</span><br>
-                <span>글내용입니다.</span>
-            </div>
-            <div class="form-control">
-                <span style="font-size: 0.7rem">example@example.com</span>&nbsp;&nbsp;
-                <span style="font-size: 0.7rem">2022-07-21</span><br>
-                <span>글내용입니다.</span>
-            </div>
-            <div class="form-control">
-                <span style="font-size: 0.7rem">example@example.com</span>&nbsp;&nbsp;
-                <span style="font-size: 0.7rem">2022-07-21</span><br>
-                <span>글내용입니다.</span>
-            </div>
-            <div class="form-control">
-                <span style="font-size: 0.7rem">example@example.com</span>&nbsp;&nbsp;
-                <span style="font-size: 0.7rem">2022-07-21</span><br>
-                <span>글내용입니다.</span>
-            </div>
     </div>
 </div>
 <%--댓글 끝--%>
@@ -259,14 +241,50 @@
     function postreply()
     {
         // 댓글 등록
+        $.ajax({
+            url: '/Board/replypost.do',
+            type: 'GET',
+            data: {"comment": $('#comment').val(), "nowPage": <%=nowPage%>},
+            error: function()
+            {
+                alert("에러");
+            },
+            success: function(result)
+            {
+                listreply();
+                $('#comment').val("");
+            }
+        });
     }
+
     function listreply()
     {
         // 댓글 목록 가져오기
+        $.ajax({
+            url: '/Board/replylist.do', type: 'GET', error: function()
+            {
+                alert("에러");
+            }, success: function(result)
+            {
+                $('#replylist').html(result);
+                totalreplycnt();
+            }
+        });
     }
+    listreply();
+
     function totalreplycnt()
     {
         // 댓글 수
+        $.ajax({
+            url: '/Board/replycnt.do', type: 'GET', error: function()
+            {
+                alert("에러");
+            }, success: function(result)
+            {
+                $('#replycnt').html(result);
+            }
+        });
     }
 </script>
 </body>

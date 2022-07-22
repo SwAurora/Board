@@ -2,6 +2,7 @@ package com.korea.service;
 
 import com.korea.dao.BoardDAO;
 import com.korea.dto.BoardDTO;
+import com.korea.dto.ReplyDTO;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -275,5 +276,20 @@ public class BoardService
             dir.delete();
         }
         return dao.Delete(dto);
+    }
+
+    public boolean replypost(ReplyDTO rdto)
+    {
+        return dao.replypost(rdto);
+    }
+
+    public ArrayList<ReplyDTO> getReplylist(int bno)
+    {
+        return dao.getReplylist(bno);
+    }
+
+    public int getTotalReplyCnt(int bno)
+    {
+        return dao.getTotalReplyCnt(bno);
     }
 }

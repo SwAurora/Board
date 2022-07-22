@@ -44,6 +44,9 @@ public class FrontController extends HttpServlet
         list.put("/Board/downloadAll.do", new BoardDownloadAllController());
         list.put("/Board/update.do", new BoardUpdateController());
         list.put("/Board/delete.do", new BoardDeleteController());
+        list.put("/Board/replypost.do", new BoardReplyPostController());
+        list.put("/Board/replylist.do", new BoardReplyListController());
+        list.put("/Board/replycnt.do", new BoardReplyCntController());
         // 공지관련
         list.put("/Notice/list.do", new NoticeListController());
         list.put("/Notice/post.do", new NoticePostController());
