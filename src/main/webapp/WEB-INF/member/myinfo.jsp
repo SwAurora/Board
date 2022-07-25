@@ -42,7 +42,7 @@
                 <tr>
                     <td colspan="2">
                         <input type="submit" class="btn btn-primary w-25" value="정보 수정">
-                        <a href="/main.jsp" class="btn btn-secondary w-25">메인 이동</a>
+                        <a href="/WEB-INF/main.jsp" class="btn btn-secondary w-25">메인 이동</a>
                     </td>
                 </tr>
             </table>

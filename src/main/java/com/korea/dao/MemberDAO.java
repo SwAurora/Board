@@ -44,12 +44,13 @@ public class MemberDAO
     {
         try
         {
-            pstmt = conn.prepareStatement("insert into tbl_member values(?,?,?,?,?)");
+            pstmt = conn.prepareStatement("insert into tbl_member values(?,?,?,?,?,?)");
             pstmt.setString(1, dto.getEmail());
             pstmt.setString(2, dto.getPwd());
             pstmt.setString(3, dto.getAddr1());
             pstmt.setString(4, dto.getAddr2());
-            pstmt.setInt(5, dto.getGrade());
+            pstmt.setString(5, dto.getZipcode());
+            pstmt.setInt(6, dto.getGrade());
 
             int result = pstmt.executeUpdate();
 
@@ -91,6 +92,7 @@ public class MemberDAO
                 dto.setPwd(rs.getString("pwd"));
                 dto.setAddr1(rs.getString("addr1"));
                 dto.setAddr2(rs.getString("addr2"));
+                dto.setZipcode(rs.getString("zipcode"));
                 dto.setGrade(rs.getInt("grade"));
                 return dto;
             }

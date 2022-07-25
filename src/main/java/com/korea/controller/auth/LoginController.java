@@ -24,7 +24,7 @@ public class LoginController implements SubController
         {
             if(email == null || pwd == null)
             {
-                resp.sendRedirect("/");
+                resp.sendRedirect("/index.do");
             }
             // 서비스 실행
             MemberDTO dto = service.MemberSearch(email);
@@ -37,18 +37,18 @@ public class LoginController implements SubController
                     session.setAttribute("grade", dto.getGrade());
                     session.setMaxInactiveInterval(60*30);
                     // View로 이동
-                    resp.sendRedirect("/main.jsp");
+                    resp.sendRedirect("/main.do");
                 }
                 else
                 {
                     req.setAttribute("MSG", "패스워드가 일치하지 않습니다.");
-                    req.getRequestDispatcher("/").forward(req, resp);
+                    req.getRequestDispatcher("/index.do").forward(req, resp);
                 }
             }
             else
             {
                 req.setAttribute("MSG", "일치하는 아이디가 없습니다.");
-                req.getRequestDispatcher("/").forward(req, resp);
+                req.getRequestDispatcher("/index.do").forward(req, resp);
             }
         }
         catch(Exception e)

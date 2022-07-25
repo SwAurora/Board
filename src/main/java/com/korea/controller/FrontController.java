@@ -29,6 +29,9 @@ public class FrontController extends HttpServlet
     public void init()
     {
         list = new HashMap<>();
+        // 기본
+        list.put("/index.do", new IndexController());
+        list.put("/main.do", new MainController());
         // 회원관련
         list.put("/MemberJoin.do", new MemberJoinController());
         list.put("/MemberInfo.do", new MemberInfoController());
