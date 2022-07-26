@@ -18,7 +18,7 @@ public class C01ShowBusInfo extends HttpServlet
     {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json; charset=UTF-8");
-        String addr = "http://apis.data.go.kr/1613000/SuburbsBusInfoService/getSuberbsBusTrminlList?serviceKey=7sfG3tu4mJKEVNsyhhsSn7nRPuWQSHw7L1lBXG6Cpf%2B6SzN0veH15BObi6JhDTtDOnjLr6j71oo2ZSTWbAefIg%3D%3D&pageNo=1&numOfRows=3000&_type=json";
+        String addr = "http://apis.data.go.kr/1613000/ExpBusInfoService/getExpBusTrminlList?serviceKey=7sfG3tu4mJKEVNsyhhsSn7nRPuWQSHw7L1lBXG6Cpf%2B6SzN0veH15BObi6JhDTtDOnjLr6j71oo2ZSTWbAefIg%3D%3D&pageNo=1&numOfRows=229&_type=json";
         URL url = new URL(addr);
         BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
         StringBuilder sb = new StringBuilder();
